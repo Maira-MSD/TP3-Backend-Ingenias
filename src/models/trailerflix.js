@@ -1,6 +1,5 @@
 //definir tipo de dato
 const {DataTypes} = require("sequelize");
-const Sequelize = require("../database");
 const sequelize = require("../database");
 
 //registro de tabla Categoria
@@ -52,15 +51,15 @@ const Contenido = sequelize.define("Contenido", {
     },
     resumen:{
         type: DataTypes.STRING(1000),
-        defaultValue: null,
+        allowNull: true,
             },
     temporadas:{
         type: DataTypes.STRING(50),
-        defaultValue: null,
+        allowNull: true,
     },
-    duracion_min:{
+    duracion:{
         type:  DataTypes.STRING(50),
-        defaultValue: null,
+        allowNull: true,
     },
     poster:{
         type: DataTypes.STRING(50),
