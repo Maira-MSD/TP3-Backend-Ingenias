@@ -14,7 +14,19 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Volcando datos para la tabla trailerflix.actores: ~36 rows (aproximadamente)
+
+-- Volcando estructura de base de datos para trailerflix
+CREATE DATABASE IF NOT EXISTS `trailerflix` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `trailerflix`;
+
+-- Volcando estructura para tabla trailerflix.actores
+CREATE TABLE IF NOT EXISTS `actores` (
+  `actores_id` int NOT NULL AUTO_INCREMENT,
+  `nombre_completo` varchar(200) NOT NULL,
+  PRIMARY KEY (`actores_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=840 DEFAULT CHARSET=utf8mb3;
+
+-- Volcando datos para la tabla trailerflix.actores: ~839 rows (aproximadamente)
 INSERT INTO `actores` (`actores_id`, `nombre_completo`) VALUES
 	(1, 'Alana Cavanaugh'),
 	(2, 'Daniel Kaluuya'),
@@ -856,10 +868,38 @@ INSERT INTO `actores` (`actores_id`, `nombre_completo`) VALUES
 	(838, 'Ben Barnes'),
 	(839, 'Ryan Lee');
 
+-- Volcando estructura para tabla trailerflix.categoria
+CREATE TABLE IF NOT EXISTS `categoria` (
+  `categoria_id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`categoria_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+
 -- Volcando datos para la tabla trailerflix.categoria: ~2 rows (aproximadamente)
 INSERT INTO `categoria` (`categoria_id`, `nombre`) VALUES
 	(1, 'Película'),
 	(2, 'Serie');
+
+-- Volcando estructura para tabla trailerflix.contenido
+CREATE TABLE IF NOT EXISTS `contenido` (
+  `contenido_id` int NOT NULL AUTO_INCREMENT,
+  `poster` varchar(50) NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `categoria_id` int NOT NULL,
+  `genero_id` int NOT NULL,
+  `resumen` varchar(1000) DEFAULT NULL,
+  `temporadas` varchar(50) DEFAULT NULL,
+  `duracion` varchar(50) DEFAULT NULL,
+  `trailer` varchar(50) NOT NULL,
+  `rank_id` int DEFAULT NULL,
+  PRIMARY KEY (`contenido_id`),
+  KEY `fk_Contenido_Categoria_idx` (`categoria_id`),
+  KEY `fk_Contenido_Genero1_idx` (`genero_id`),
+  KEY `rank_id` (`rank_id`),
+  CONSTRAINT `fk_Contenido_Categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`categoria_id`),
+  CONSTRAINT `fk_Contenido_Genero1` FOREIGN KEY (`genero_id`) REFERENCES `genero` (`genero_id`),
+  CONSTRAINT `fk_ranking` FOREIGN KEY (`rank_id`) REFERENCES `ranking` (`id_rank`)
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla trailerflix.contenido: ~97 rows (aproximadamente)
 INSERT INTO `contenido` (`contenido_id`, `poster`, `titulo`, `categoria_id`, `genero_id`, `resumen`, `temporadas`, `duracion`, `trailer`, `rank_id`) VALUES
@@ -960,6 +1000,17 @@ INSERT INTO `contenido` (`contenido_id`, `poster`, `titulo`, `categoria_id`, `ge
 	(96, './posters/96.jpg', 'Miedo Profundo', 1, 9, 'Nancy, una estudiante de medicina apasionada del surfing, es una joven que trata de superar la pérdida de su madre. Un día, practicando surf en una solitaria playa mexicana se queda atrapada en un islote a sólo cien metros de la costa. El problema está en que un enorme tiburón blanco se interpone entre ella y la otra orilla.', 'N/A', '86 minutos', 'https://www.youtube.com/embed/EgdxIlSuB70', NULL),
 	(97, './posters/97.jpg', 'Everest', 1, 8, 'Inspirada en los hechos que tuvieron lugar durante un intento por alcanzar el pico más alto del mundo, narra las peripecias de dos expediciones que se enfrentan a la peor tormenta de nieve conocida. En un desesperado esfuerzo por sobrevivir, el temple de los alpinistas se ve puesto a prueba al tener que enfrentarse a la furia desatada de los elementos y a obstáculos casi insuperables.', 'N/A', '121 minutos', 'https://www.youtube.com/embed/5ZQVpPiOji0', NULL),
 	(98, './posters/98.jpg', 'La Familia Addams', 1, 6, 'El delirante y gótico estilo de vida de la peculiar familia Addams se ve amenazado peligrosamente cuando el codicioso dúo que forman madre e hijo, con la ayuda de un abogado sin ningún escrúpulos, conspiran para hacerse con la fortuna familiar... (No se pierdan las locutras de Gomez, Morticia, Tío Lucas, Merlina, El tío Cosas, Dedos y Largo),', 'N/A', '101 minutos', 'https://www.youtube.com/embed/G388UMkJIBE', NULL);
+
+-- Volcando estructura para tabla trailerflix.contenido_tag
+CREATE TABLE IF NOT EXISTS `contenido_tag` (
+  `contenido_id` int NOT NULL,
+  `tag_id` int NOT NULL,
+  PRIMARY KEY (`contenido_id`,`tag_id`),
+  KEY `fk_Contenido_has_Tag_Tag1_idx` (`tag_id`),
+  KEY `fk_Contenido_has_Tag_Contenido1_idx` (`contenido_id`),
+  CONSTRAINT `fk_Contenido_has_Tag_Contenido1` FOREIGN KEY (`contenido_id`) REFERENCES `contenido` (`contenido_id`),
+  CONSTRAINT `fk_Contenido_has_Tag_Tag1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla trailerflix.contenido_tag: ~307 rows (aproximadamente)
 INSERT INTO `contenido_tag` (`contenido_id`, `tag_id`) VALUES
@@ -1271,7 +1322,14 @@ INSERT INTO `contenido_tag` (`contenido_id`, `tag_id`) VALUES
 	(98, 11),
 	(98, 12);
 
--- Volcando datos para la tabla trailerflix.genero: ~0 rows (aproximadamente)
+-- Volcando estructura para tabla trailerflix.genero
+CREATE TABLE IF NOT EXISTS `genero` (
+  `genero_id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  PRIMARY KEY (`genero_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+
+-- Volcando datos para la tabla trailerflix.genero: ~10 rows (aproximadamente)
 INSERT INTO `genero` (`genero_id`, `nombre`) VALUES
 	(1, 'Acción'),
 	(2, 'Aventura'),
@@ -1284,12 +1342,31 @@ INSERT INTO `genero` (`genero_id`, `nombre`) VALUES
 	(9, 'Suspenso'),
 	(10, 'Terror');
 
--- Volcando datos para la tabla trailerflix.ranking: ~0 rows (aproximadamente)
+-- Volcando estructura para tabla trailerflix.ranking
+CREATE TABLE IF NOT EXISTS `ranking` (
+  `id_rank` int NOT NULL AUTO_INCREMENT,
+  `calificacion` int DEFAULT '0',
+  `comentarios` varchar(200) COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`id_rank`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- Volcando datos para la tabla trailerflix.ranking: ~2 rows (aproximadamente)
 INSERT INTO `ranking` (`id_rank`, `calificacion`, `comentarios`) VALUES
 	(1, 10, 'Ta buena'),
 	(2, 7, 'Regular');
 
--- Volcando datos para la tabla trailerflix.reparto: ~0 rows (aproximadamente)
+-- Volcando estructura para tabla trailerflix.reparto
+CREATE TABLE IF NOT EXISTS `reparto` (
+  `contenido_id` int NOT NULL,
+  `actores_id` int NOT NULL,
+  PRIMARY KEY (`contenido_id`,`actores_id`),
+  KEY `fk_Contenido_has_Actor_Actor1_idx` (`actores_id`),
+  KEY `fk_Contenido_has_Actor_Contenido1_idx` (`contenido_id`),
+  CONSTRAINT `fk_Contenido_has_Actor_Actor1` FOREIGN KEY (`actores_id`) REFERENCES `actores` (`actores_id`),
+  CONSTRAINT `fk_Contenido_has_Actor_Contenido1` FOREIGN KEY (`contenido_id`) REFERENCES `contenido` (`contenido_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- Volcando datos para la tabla trailerflix.reparto: ~948 rows (aproximadamente)
 INSERT INTO `reparto` (`contenido_id`, `actores_id`) VALUES
 	(1, 196),
 	(1, 475),
@@ -2240,7 +2317,14 @@ INSERT INTO `reparto` (`contenido_id`, `actores_id`) VALUES
 	(98, 647),
 	(98, 817);
 
--- Volcando datos para la tabla trailerflix.tag: ~0 rows (aproximadamente)
+-- Volcando estructura para tabla trailerflix.tag
+CREATE TABLE IF NOT EXISTS `tag` (
+  `tag_id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3;
+
+-- Volcando datos para la tabla trailerflix.tag: ~25 rows (aproximadamente)
 INSERT INTO `tag` (`tag_id`, `nombre`) VALUES
 	(1, 'Historia'),
 	(2, 'Acción'),
@@ -2268,7 +2352,17 @@ INSERT INTO `tag` (`tag_id`, `nombre`) VALUES
 	(24, 'Música'),
 	(25, 'Musical');
 
--- Volcando datos para la tabla trailerflix.trabajos_filmicos: ~0 rows (aproximadamente)
+-- Volcando estructura para tabla trailerflix.trabajos_filmicos
+CREATE TABLE IF NOT EXISTS `trabajos_filmicos` (
+  `id_trabajosf` int NOT NULL AUTO_INCREMENT,
+  `fecha_lanzamiento` date DEFAULT NULL,
+  `contenido_id` int NOT NULL,
+  PRIMARY KEY (`id_trabajosf`),
+  UNIQUE KEY `uq_trabajos_contenido` (`contenido_id`),
+  CONSTRAINT `fk_trabajos_contenido` FOREIGN KEY (`contenido_id`) REFERENCES `contenido` (`contenido_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- Volcando datos para la tabla trailerflix.trabajos_filmicos: ~6 rows (aproximadamente)
 INSERT INTO `trabajos_filmicos` (`id_trabajosf`, `fecha_lanzamiento`, `contenido_id`) VALUES
 	(1, '2025-07-24', 32),
 	(2, '2025-07-24', 75),
