@@ -2,6 +2,48 @@
 const {DataTypes} = require("sequelize");
 const sequelize = require("../database");
 
+//registro de tabla ranking
+
+const Ranking = sequelize.define('Ranking', {
+  id_rank: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  calificacion: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  comentarios: {
+    type: DataTypes.STRING(255),
+    allowNull: true
+  }
+}, {
+  tableName: 'ranking',
+  timestamps: false
+});
+
+//registro de tabla trabajos_filmicos
+const TrabajosFilmicos = sequelize.define('TrabajosFilmicos', {
+  id_trabajosf: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  contenido_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  fecha_lanzamiento: {
+    type: DataTypes.DATEONLY,
+    allowNull: true
+  }
+}, {
+  tableName: 'trabajos_filmicos',
+  timestamps: false
+});
+
+
 //registro de tabla Categoria
 
 const Categoria = sequelize.define("Categoria", {
@@ -54,7 +96,7 @@ const Actores = sequelize.define('Actores', {
     timestamps: false
 });
 
-// Asociación con contenido a través de reparto
+// ASOCIACION con contenido a través de reparto
 Actores.associate = models => {
     Actores.belongsToMany(models.Contenido, {
         through: models.Reparto,
@@ -80,13 +122,13 @@ const Tag = sequelize.define('Tag', {
 });
 
 // Asociación con contenido a través de Contenido_Tag
-Tag.associate = models => {
-    Tag.belongsToMany(models.Contenido, {
-        through: models.Contenido_Tag,
-        foreignKey: 'tag_id',
-        otherKey: 'contenido_id'
-    });
-};
+// Tag.associate = models => {
+ //    Tag.belongsToMany(models.Contenido, {
+ //        through: models.Contenido_Tag,
+ //        foreignKey: 'tag_id',
+  //       otherKey: 'contenido_id'
+  //   });
+// };
 
 //registro de tabla Reparto
 const Reparto = sequelize.define('Reparto', {
@@ -165,6 +207,17 @@ const Contenido = sequelize.define("Contenido", {
             model: "Genero",
             key: "genero_id"
         },
+
+},
+//registro de RANKING
+  rank_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'ranking',
+      key: 'id_rank'
+    }
+
     }
 },
 {
@@ -173,44 +226,63 @@ const Contenido = sequelize.define("Contenido", {
 }
 );
  
-Contenido.belongsTo(Categoria, {
-    foreignKey: "categoria_id"
-});
-Categoria.hasMany(Contenido, {
-    foreignKey: "categoria_id"
-});
+// --- ASOCIACIONES ---
 
-Contenido.belongsTo(Genero, {
-    foreignKey: "genero_id"
-});
-Genero.hasMany(Contenido, {
-    foreignKey: "genero_id"
-});
+// Contenido ↔ Ranking
+Contenido.belongsTo(Ranking, { foreignKey: 'rank_id', as: 'ranking' });
+Ranking.hasMany(Contenido,   { foreignKey: 'rank_id', as: 'contenidos' });
+
+// Contenido ↔ Categoria
+Contenido.belongsTo(Categoria, { foreignKey: "categoria_id", as: 'categoria' });
+Categoria.hasMany(Contenido,   { foreignKey: "categoria_id", as: 'contenidos' });
+
+// Contenido ↔ Genero
+Contenido.belongsTo(Genero, { foreignKey: "genero_id", as: 'genero' });
+Genero.hasMany(Contenido,   { foreignKey: "genero_id", as: 'contenidos' });
+
+// Contenido ↔ Tag (M:N)
 Contenido.belongsToMany(Tag, {
-    through: Contenido_Tag,
-    foreignKey: 'contenido_id',
-    otherKey: 'tag_id'
+  through: Contenido_Tag,
+  foreignKey: 'contenido_id',
+  otherKey: 'tag_id',
+  as: 'tags'
 });
-Contenido.belongsToMany(Actores, {
-    through: Reparto,
-    foreignKey: 'contenido_id',
-    otherKey: 'actores_id'
-});
-
-// Asociación entre Tag y Contenido
 Tag.belongsToMany(Contenido, {
   through: Contenido_Tag,
   foreignKey: 'tag_id',
-  otherKey: 'contenido_id'
+  otherKey: 'contenido_id',
+  as: 'contenidos'
 });
 
-// Asociación entre Actores y Contenido
+// Contenido ↔ Actores (M:N)
+Contenido.belongsToMany(Actores, {
+  through: Reparto,
+  foreignKey: 'contenido_id',
+  otherKey: 'actores_id',
+  as: 'actores'
+});
 Actores.belongsToMany(Contenido, {
   through: Reparto,
   foreignKey: 'actores_id',
-  otherKey: 'contenido_id'
+  otherKey: 'contenido_id',
+  as: 'contenidos'
 });
-  
+
+// Contenido ↔ TrabajosFilmicos (1:1)
+Contenido.hasOne(TrabajosFilmicos, {
+  foreignKey: 'contenido_id',
+  as: 'trabajoFilmico'
+});
+TrabajosFilmicos.belongsTo(Contenido, {
+  foreignKey: 'contenido_id',
+  as: 'contenidoAsociado'
+});
+
+
 //exportar los modelos de tabla de contenido, categoria, genero
-module.exports = { Contenido, Categoria, Genero, Actores, Tag, Reparto, Contenido_Tag };
+module.exports = {
+  sequelize,
+  Contenido, Categoria, Genero, Actores, Tag, Reparto, Contenido_Tag,
+  TrabajosFilmicos, Ranking
+};
 
