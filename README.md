@@ -1,8 +1,9 @@
 *Backend · Ingenias YPF 2025 · Entrega final*
 
 **Equipo: 10** Integrantes*
+
     *Maira Belén Masdea*
-    *Valeria *
+    *Valeria E. Durruty *
     *Yesica Agata Finocchio*
     
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
