@@ -24,7 +24,7 @@ Se implementaron todas las consignas solicitadas: diseño del modelo relacional 
 
 ---
 
-## 📁 Estructura del proyecto
+##Estructura del proyecto
 
 ```
 TP3-BACKEND-INGENIAS-MAIN/
@@ -56,7 +56,7 @@ TP3-BACKEND-INGENIAS-MAIN/
 
 ---
 
-## 🔐 Variables de entorno
+## Variables de entorno
 
 Archivo `.env`:
 
