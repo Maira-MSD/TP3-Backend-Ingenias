@@ -118,7 +118,7 @@ Servidor por defecto en: **[http://localhost:3000](http://localhost:3000)**
 
 ---
 
-## Endpoints implementados
+## Algunos de los endpoints implementados
 
 > Los paths reales dependen de cómo montaste los routers en `routes/index.js`. Aquí los dejamos tal como los usamos durante el desarrollo.
 
@@ -126,11 +126,9 @@ Servidor por defecto en: **[http://localhost:3000](http://localhost:3000)**
 
 | Método | Endpoint             | Descripción                                      |
 | -----: | -------------------- | ------------------------------------------------ |
-|    GET | `/trailerflix`       | Devuelve el catálogo completo (vista JSON-like). |
 |    GET | `/contenido/:genero` | Películas/Series por género.                     |
 |    GET | `/peliculas`         | Lista de películas.                              |
 |    GET | `/series`            | Lista de series.                                 |
-|    GET | `/chris-pratt-jobs`  | Cantidad de trabajos de Chris Pratt.             |
 |    GET | `/peliculas/total`   | Total de películas.                              |
 |    GET | `/series/total`      | Total de series.                                 |
 
@@ -159,7 +157,7 @@ Servidor por defecto en: **[http://localhost:3000](http://localhost:3000)**
 
 | Método | Endpoint                    | Descripción                                 |
 | -----: | --------------------------- | ------------------------------------------- |
-|    GET | `/peliculas/buscar?q=texto` | Busca en **título o resumen** de películas. |
+|    GET | `/peliculas/buscar?q=texto` | Busca palabras claves                       |
 
 ### Trabajos fílmicos (fecha de lanzamiento)
 
