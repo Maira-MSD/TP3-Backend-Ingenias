@@ -245,9 +245,10 @@ JOIN contenido AS b ON a.id_rank = b.rank_id;
 * **Buenas prácticas**:
 
   * Variables de entorno en `.env`.
-  * Aliases (`as`) consistentes para evitar `SequelizeEagerLoadingError`.
   * Manejo de errores con `try/catch`.
   * Endpoints asincrónicos.
+ 
+  * Buen trabajo en grupo, hubo compromiso y compañerismo.
 
 ---
 
