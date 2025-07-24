@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 router.get("/", async (req, res) => {
   try {
     const resultados = await Contenido.findAll({
-      attributes: ["titulo"],
+      attributes: ["titulo",],
       include: [
         {
           model: Categoria,
