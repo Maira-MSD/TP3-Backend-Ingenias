@@ -2,9 +2,9 @@
 
 **Equipo N° 10** 
 Integrantes*
-    *Maira Belén Masdea*
-    *Valeria E. Durruty *
-    *Yesica Agata Finocchio*
+    Maira Belén Masdea, 
+    Valeria E. Durruty,
+    Yesica Agata Finocchio.
     
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # TrailerFlix API
