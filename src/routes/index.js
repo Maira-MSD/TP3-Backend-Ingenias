@@ -11,6 +11,7 @@ const getGenero = require("./trailerflix/getGenero")
 const getResumenMisionRoute = require("./trailerflix/getResumenMision");
 const getPeliculas = require("./trailerflix/getPeliculas");
 const getSeries = require("./trailerflix/getSeries");
+const getChrisPrattJobs = require("./trailerflix/getChrisPrattJobs");
 
 //endpoints
 router.get("/trailerflix", getAll);
@@ -18,5 +19,6 @@ router.use("/contenido", getGenero)
 router.use("/resumen-mision", getResumenMisionRoute);
 router.use("/peliculas", getPeliculas);
 router.use("/series", getSeries);
+router.use("/chris-pratt-jobs", getChrisPrattJobs);
 
 module.exports = router;
