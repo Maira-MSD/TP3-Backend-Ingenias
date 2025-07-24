@@ -9,7 +9,7 @@ app.use("/", routes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-    console.log("servidor coriendo en el puerto 3000")
+    console.log("servidor corriendo en el puerto 3000")
 });
 
 
