@@ -21,8 +21,8 @@ Se implementaron todas las consignas solicitadas: diseño del modelo relacional 
 * **Node.js / Express**
 * **Sequelize** (dialecto **mysql2**)
 * **MySQL**
-* tipos de clientes
-* **dotenv**
+* Tipos de clientes
+* **MySQL Workbench**
 
 ---
 
