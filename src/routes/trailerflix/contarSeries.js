@@ -14,7 +14,7 @@ router.get('/series/total', async (req, res) => {
         categoria_id: 2,
       }
     });
-    res.json({ total: totalSeries });
+    res.json(`Total de series registradas: ${totalSeries}`);
     console.log(`Total de series registradas: ${totalSeries}`);
     
   } catch (error) {

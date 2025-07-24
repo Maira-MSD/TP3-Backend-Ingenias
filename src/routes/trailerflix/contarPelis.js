@@ -14,7 +14,7 @@ router.get('/peliculas/total', async (req, res) => {
         categoria_id: 1,
       }
     });
-    res.json({ total: totalPeliculas });
+    res.json(`Total de películas registradas: ${totalPeliculas}`);
     console.log(`Total de películas registradas: ${totalPeliculas}`);
     
   } catch (error) {

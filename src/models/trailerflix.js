@@ -233,39 +233,35 @@ Contenido.belongsTo(Ranking, { foreignKey: 'rank_id', as: 'ranking' });
 Ranking.hasMany(Contenido,   { foreignKey: 'rank_id', as: 'contenidos' });
 
 // Contenido ↔ Categoria
-Contenido.belongsTo(Categoria, { foreignKey: "categoria_id", as: 'categoria' });
-Categoria.hasMany(Contenido,   { foreignKey: "categoria_id", as: 'contenidos' });
+Contenido.belongsTo(Categoria, { foreignKey: "categoria_id"});
+Categoria.hasMany(Contenido,   { foreignKey: "categoria_id"});
 
 // Contenido ↔ Genero
-Contenido.belongsTo(Genero, { foreignKey: "genero_id", as: 'genero' });
-Genero.hasMany(Contenido,   { foreignKey: "genero_id", as: 'contenidos' });
+Contenido.belongsTo(Genero, { foreignKey: "genero_id"});
+Genero.hasMany(Contenido,   { foreignKey: "genero_id"});
 
 // Contenido ↔ Tag (M:N)
 Contenido.belongsToMany(Tag, {
   through: Contenido_Tag,
   foreignKey: 'contenido_id',
-  otherKey: 'tag_id',
-  as: 'tags'
+  otherKey: 'tag_id'
 });
 Tag.belongsToMany(Contenido, {
   through: Contenido_Tag,
   foreignKey: 'tag_id',
-  otherKey: 'contenido_id',
-  as: 'contenidos'
+  otherKey: 'contenido_id'
 });
 
 // Contenido ↔ Actores (M:N)
 Contenido.belongsToMany(Actores, {
   through: Reparto,
   foreignKey: 'contenido_id',
-  otherKey: 'actores_id',
-  as: 'actores'
+  otherKey: 'actores_id'
 });
 Actores.belongsToMany(Contenido, {
   through: Reparto,
   foreignKey: 'actores_id',
-  otherKey: 'contenido_id',
-  as: 'contenidos'
+  otherKey: 'contenido_id'
 });
 
 // Contenido ↔ TrabajosFilmicos (1:1)
@@ -274,8 +270,7 @@ Contenido.hasOne(TrabajosFilmicos, {
   as: 'trabajoFilmico'
 });
 TrabajosFilmicos.belongsTo(Contenido, {
-  foreignKey: 'contenido_id',
-  as: 'contenidoAsociado'
+  foreignKey: 'contenido_id'
 });
 
 
